@@ -1,19 +1,19 @@
 ;; 【例 1.1】 显示五行 HELLO
-.486
+.486                                    ; 选择的处理器为 486
 
-DATA    SEGMENT USE16
-MESG    DB      'HELLO'
+DATA    SEGMENT USE16                   ; USE16 定义了 16位 的 段
+MESG    DB      'HELLO'                 ; MESG 为字节变量
         DB      0, 0, 0
 DATA    ENDS
 
 CODE    SEGMENT USE16
         ASSUME  CS:CODE, DS:DATA
 
-BEG:    MOV     AX, DATA
-        MOV     DS, AX
-        MOV     ES, AX
-        MOV     CX, 5
-LL1:    MOV     MESG+5, 0DH
+BEG:    MOV     AX, DATA                ; 数据段首址 放入 AX
+        MOV     DS, AX                  ; 数据段首址 放入 DS
+        MOV     ES, AX                  ; 数据段首址 放入 ES
+        MOV     CX, 5                   ; CX 变为 0005H
+LL1:    MOV     MESG+5, 0DH             ; 往下不知道要干涉呢
         MOV     MESG+6, 0AH
         MOV     MESG+7, '$'
         CALL    DISP
