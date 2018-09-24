@@ -31,7 +31,7 @@ Microcomputer interface and computer technology
 
 ## 汇编语言通用框架
 
-```masm
+```Assembly
 DATAS SEGMENT
     ;; 存放数据
 
