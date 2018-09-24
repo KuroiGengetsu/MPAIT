@@ -28,3 +28,32 @@ Microcomputer interface and computer technology
 
 > DOSBox 的刷新方法: C-F4
 > DOSBox 结束进程的方法: C-F9
+
+## 汇编语言通用框架
+
+```masm
+DATAS SEGMENT
+    ;; 存放数据
+
+DATAS ENDS
+
+CODES SEGMENT
+    ;; 代码段
+    ASSUME CS:CODES, DS:DATAS
+
+START:
+    ;; 初始化段首址
+    MOV AX, DATAS
+    MOV DS, AX
+
+    ;; 主程序, 代码写在下面
+
+    ;; 按下任意键即可退出程序
+    MOV AH, 4CH
+    INT 21H
+
+    ;; 代码段结束
+CODES ENDS
+
+    END START
+```
