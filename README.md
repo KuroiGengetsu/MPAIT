@@ -32,6 +32,8 @@ Microcomputer interface and computer technology
 ## 汇编语言通用框架
 
 ```Assembly
+.586
+
 DATAS SEGMENT
     ;; 存放数据
 
