@@ -4,8 +4,7 @@
 
 ## 实验源代码以及指出错误
 
-'''Assembly
-
+```Assembly
 	;; FILENAME:	EXA131.ASM
 	.486
 	;; 数据段
@@ -53,5 +52,5 @@ NEXT:	ADD	[BX+8],	SUM	; 物理内存单元之间只能用串操作符操作, 或
 CHANG:	ENDP			; 冒号多余
 	CODE	ENDS
 	END	BEG
-'''
+```
 
