@@ -1,0 +1,72 @@
+.586
+DATA	SEGMENT	USE16
+BUF	DB	255, ?, 255 DUP(?) ; 读取的字符都存放在 BUF 中
+NUM	DB	0		   ; 最终符合的个数
+NUMSTR	DB	?,?,?,'$'	   ; 个数的字符串格式
+RESULT	DB	255 DUP(?), ?, ?   ; 符合的字符
+DATA	ENDS
+
+CODE	SEGMENT	USE16
+	ASSUME	CS:CODE, DS:DATA
+BEG:	MOV	AX,	DATA
+	MOV	DS,	AX
+
+	;; 读取字符串放入 BUF 中
+	MOV	AH,	0AH
+	LEA	DX,	BUF
+	INT	21H
+
+	;; 将偏移地址放入指针
+	LEA	BX,	RESULT
+	LEA	SI,	BUF+2
+
+	;; 循环的次数
+	MOV	CL,	BUF+1
+	MOV	CH,	0
+
+	;; 显示换行字符
+	MOV	AH,	02H
+	MOV	DL,	0AH
+	INT	21H
+
+	;; 比较大小
+AGA:	CMP	BYTE PTR [SI],	42H
+	JB	NEXT
+	CMP	BYTE PTR [SI],	45H
+	JA	NEXT
+	;; 符合的字符都放入 RESULT 中
+	MOV	AL,	[SI]
+	MOV	[BX],	AL
+	INC	BX
+	INC	NUM
+NEXT:	INC	SI
+	LOOP	AGA
+
+	;; 对 RESULT 字符后的内容进行处理, 回车换行美元符号
+	MOV	BYTE PTR [BX],	0AH
+	MOV	BYTE PTR [BX+1],	0DH
+	MOV	BYTE PTR [BX+2],	'$'
+	;; 显示结果的字符串
+	LEA	DX,	RESULT
+	MOV	AH,	09H
+	INT	21H
+
+	;; 显示 NUM 的二进制
+	MOV	BH,	NUM
+	MOV	CX,	8
+
+	MOV	AH,	02H
+L1:	RCL	BH,	1
+	JC	ONE
+	MOV	DL,	'0'
+	JMP	NEXT2
+ONE:	MOV	DL,	'1'
+NEXT2:	INT	21H
+	LOOP	L1
+
+	;; 返回 DOS
+	MOV	AH,	4CH
+	INT	21H
+CODE	ENDS
+	END	BEG
+
