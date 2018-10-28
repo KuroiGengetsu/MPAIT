@@ -1,0 +1,22 @@
+	;; 一个BCD码占4位，而一个字节有8位。若把二个BCD码放在一个字节中，就叫压缩的BCD码。而一个字节只放一个BCD码，高位置0，则叫非压缩的BCD码。
+	.486
+	DATA	SEGMENT	USE16
+	BUF1	DW	0506H
+	BUF2	DB	?
+	DATA	ENDS
+
+	CODE	SEGMENT	USE16
+	ASSUME	CS:CODE,	DS:DATA
+BEG:	MOV	AX,	DATA
+	MOV	DS,	AX
+
+	MOV	AX,	BUF1	; AX = 0506H
+	SAL	AL,	4	; AL 左移四位, AX = 0560H
+	SAL	AX,	4	; AX 左移四位, AX = 5600H
+	MOV	BUF2,	AH	; AH = 56H 放入 BUF2 中
+
+	MOV	AH,	4CH
+	INT	21H
+
+	CODE	ENDS
+	END	BEG
